@@ -39,7 +39,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.mutableStateOf
 
+/*
+TODO:
+1.
+/ When clicked on one button the content of that button should be visible
+Then when clicked on the other button the content of the first button will be hidden
+and the content of the second button will be shown.
 
+2.Resize the images, make them bigger. and maybe add two more recipes.
+
+3. See if you can make the UI scrollable when content is shown.
+ */
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,39 +57,74 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab1P2Theme {
                 Surface(
-                  
+
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize() ,
-                                contentAlignment = Alignment.Center
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.TopStart
 
-                    ){
-                        val (isContentVisible, setContentVisible) = remember { mutableStateOf(false) }
+                    ) {
+                        val (isMantiVisible, setMantiVisible) = remember { mutableStateOf(false) }
+                        val (isCigköfteVisible, setCigköfteVisible) = remember {
+                            mutableStateOf(
+                                false
+                            )
+                        }
 
 
                         Column(
                             modifier = Modifier
-                            .fillMaxSize(),
+                                .fillMaxSize(),
                             verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally)
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        )
                         {
-                            if (isContentVisible) {
-                                Header("Cigköfte")
-                                cigkofteIngredients()
-                                cigkofteHowto()
+                            if (isMantiVisible) {
+                                Header("Manti")
+                                mantiIngredients()
+                                mantiHowto()
                             }
-                            }
-                        firstRecipe(onClick = { setContentVisible(!isContentVisible) })
+                        }
+                        firstRecipe(onClick = { setMantiVisible(!isMantiVisible) })
+                        setCigköfteVisible(false)
 
 
+
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            )
+                            {
+                                if (isCigköfteVisible) {
+                                    Header("Cigköfte")
+                                    cigkofteIngredients()
+                                    cigkofteHowto()
+
+                                }
+                            }
+                            secondRecipe(onClick = {
+                                setCigköfteVisible(!isCigköfteVisible)
+                                setMantiVisible(false)
+                            })
+
+                        }
                     }
                 }
             }
         }
+        }
     }
-}
+
 
 
 @Composable
@@ -143,7 +188,43 @@ fun Header(text: String, modifier: Modifier = Modifier){
 }
 
 @Composable
+fun mantiHowto(modifier: Modifier = Modifier){
+
+    val customViolet = Color(0xFFE1A0F9)
+
+    Text(
+        text = " Make dough: Combine flour and salt in a large bowl. Add eggs and water, mixing well with your hands. Add more water, if needed, to form a soft dough. Cover and set aside for at least 30 minutes.\n" +
+                "\n" +
+                "Make filling: Shred onions and place them in a colander or sieve set over a bowl; drain and discard juice. Combine drained onion, ground beef, salt, and pepper in a medium bowl; mix well with a spoon until mashed. Set filling aside.\n" +
+                "\n" +
+                "Lightly flour a work surface and a large plate.\n" +
+                "\n" +
+                "Divide dough in half. Working with one piece at a time, roll dough on the floured surface into a rectangle as thin as possible. Cut into 2-inch squares using a knife or pastry wheel.\n" +
+                "\n" +
+                "Place about 2 teaspoons filling in the center of each square. Gather the edges of dough and pinch them together at the top to form a bundle. Transfer manti to the prepared plate; sprinkle more flour on top to prevent sticking.\n" +
+                "\n" +
+                "Make oil: Heat oil and red pepper flakes in a small skillet over low heat just until pepper flakes begin to color oil. Remove from heat and keep warm.\n" +
+                "\n" +
+                "Make sauce: Stir together yogurt and garlic in a small bowl; set aside.\n" +
+                "\n" +
+                "Bring a large pot of salted water to a boil over medium-high heat. Cook manti in boiling water until filling is no longer pink and dough is tender, 20 to 25 minutes. Drain well.\n" +
+                "\n" +
+                "Divide manti onto 4 plates. Spoon yogurt sauce over manti and drizzle with pepper oil.",
+        modifier = modifier
+            .background(Color.Transparent)
+            .padding(16.dp)
+            .fillMaxWidth(),
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        color = customViolet,
+        fontSize = 20.sp
+    )
+}
+@Composable
 fun mantiIngredients(modifier :Modifier = Modifier){
+
+    val customViolet = Color(0xFFE1A0F9)
+
     Text(
         text = "Dough:\n" +
                 "\n" +
@@ -173,8 +254,16 @@ fun mantiIngredients(modifier :Modifier = Modifier){
                 "\n" +
                 "1 (8 ounce) container plain yogurt\n" +
                 "\n" +
-                "1 tablespoon minced garlic"
-    )
+                "1 tablespoon minced garlic",
+        modifier = modifier
+            .background(Color.Transparent)
+            .padding(16.dp)
+            .fillMaxWidth(),
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
+        color = customViolet,
+        fontSize = 20.sp )
+
 }
 @Composable
 fun cigkofteIngredients(modifier : Modifier = Modifier ){
