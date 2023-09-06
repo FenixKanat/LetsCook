@@ -37,35 +37,31 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.mutableStateOf
 
-/*
-TODO:
-1.Add background pic
-
-2.Adjust UI
- */
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Lab1P2Theme {
-                Column(
+                val (isMantiVisible, setMantiVisible) = remember { mutableStateOf(false) }
+                val (isCigköfteVisible, setCigköfteVisible) = remember { mutableStateOf(false) }
 
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Transparent)
-                        .size(100.dp)
-                        .verticalScroll(rememberScrollState()),
+                Column(
+                    modifier = if (!isMantiVisible && !isCigköfteVisible) {
+                        Modifier
+                            .fillMaxSize()
+                            .background(Color.Yellow)
+                            .verticalScroll(rememberScrollState())
+                    } else {
+                        Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    },
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
-
-                ) {
-
-
-                    var (isMantiVisible, setMantiVisible) = remember { mutableStateOf(false) }
-                    var (isCigköfteVisible, setCigköfteVisible) = remember { mutableStateOf(false) }
+                )  {
 
                     if (!isMantiVisible && !isCigköfteVisible) {
+
                         Header("Choose a dish")
 
                         cigkRecipe(onClick = {
@@ -80,36 +76,47 @@ class MainActivity : ComponentActivity() {
                     }
 
                     if (isCigköfteVisible) {
-                        Header("Cig Köfte")
-                        cigkofteIngredients()
-                        cigkofteHowto()
+                        Box(modifier = Modifier.background(Color.Magenta)) {
 
-                        backButton {
-                            setCigköfteVisible(false)
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Header("Cig Köfte")
+                                cigkofteIngredients()
+                                cigkofteHowto()
+
+                                backButton {
+                                    setCigköfteVisible(false)
+                                }
+                            }
                         }
-
                     }
 
                     if (isMantiVisible) {
-                        Header("Manti")
-                        mantiIngredients()
-                        mantiHowto()
+                        Box(modifier = Modifier.background(Color.Magenta)) {
+                            Column(
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Header("Manti")
+                                mantiIngredients()
+                                mantiHowto()
 
-
-                        backButton {
-                            setMantiVisible(false)
+                                backButton {
+                                    setMantiVisible(false)
+                                }
+                            }
                         }
-
-
-
                     }
+
                 }
             }
         }
     }
 }
-
-
 
 @Composable
 fun backButton(onClick: () -> Unit) {
@@ -143,10 +150,9 @@ Button(
 }
 }
 
-
 @Composable
 fun mantiRecipe(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val magentaColor = Color(0xFF00FF)
+    val magentaColor = Color(0xFF4B0082)
 
     Button(
         onClick = onClick,
@@ -168,20 +174,25 @@ fun mantiRecipe(onClick: () -> Unit, modifier: Modifier = Modifier) {
         )
     }
 }
+
 @Composable
 fun Header(text: String, modifier: Modifier = Modifier){
+    val darkPurple = Color(0xFF3D0E5F)
 
     Text(
         text = text,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.Bold,
         modifier = modifier,
         style = MaterialTheme.typography.headlineLarge,
+        color = darkPurple
     )
 }
 
 @Composable
 fun mantiHowto(modifier: Modifier = Modifier){
 
-    val customViolet = Color(0xFFE1A0F9)
+    val customPurple = Color(0xFF4B0082)
 
     Text(
         text = " Prepare Dough: Mix flour and salt. Add egg and water. Knead into a dough. Let it rest for 30 minutes.\n" +
@@ -197,14 +208,15 @@ fun mantiHowto(modifier: Modifier = Modifier){
             .fillMaxWidth(),
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        color = customViolet,
+        color = customPurple,
         fontSize = 20.sp
     )
 }
+
 @Composable
 fun mantiIngredients(modifier :Modifier = Modifier){
 
-    val customViolet = Color(0xFFE1A0F9)
+    val customPurple = Color(0xFF4B0082)
 
     Text(
         text = "Ingredients:\n" +
@@ -226,13 +238,14 @@ fun mantiIngredients(modifier :Modifier = Modifier){
             .fillMaxWidth(),
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        color = customViolet,
+        color = customPurple,
         fontSize = 20.sp )
 
 }
+
 @Composable
 fun cigkofteIngredients(modifier : Modifier = Modifier ){
-    val customViolet = Color(0xFFE1A0F9)
+    val customPurple = Color(0xFF4B0082)
 
     Text(
         text = "Ingredients:\n" +
@@ -251,7 +264,7 @@ fun cigkofteIngredients(modifier : Modifier = Modifier ){
                     .fillMaxWidth(),
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        color = customViolet,
+        color = customPurple,
         fontSize = 20.sp )
 
 }
@@ -259,7 +272,7 @@ fun cigkofteIngredients(modifier : Modifier = Modifier ){
 @Composable
 fun cigkofteHowto( modifier: Modifier = Modifier){
 
-    val customViolet = Color(0xFFE1A0F9)
+    val customPurple = Color(0xFF4B0082)
 
     Text(text = "Steps:\n" +
             "Mix Ingredients: In a large bowl, mix bulgur, ground beef, grated onion, and tomato paste.\n" +
@@ -280,22 +293,6 @@ fun cigkofteHowto( modifier: Modifier = Modifier){
             .fillMaxWidth(),
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
-        color = customViolet,
+        color = customPurple,
         fontSize = 20.sp )
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Lab1P2Theme {
-        Greeting("Android")
-    }
 }
