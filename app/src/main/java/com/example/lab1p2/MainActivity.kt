@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -39,9 +41,7 @@ import androidx.compose.runtime.mutableStateOf
 TODO:
 1.Add background pic
 
-2.Resize the images, make them bigger. and maybe add two more recipes.
-
-3. See if you can make the UI scrollable when content is shown.
+2.Adjust UI
  */
 
 class MainActivity : ComponentActivity() {
@@ -50,17 +50,24 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab1P2Theme {
                 Column(
+
                     modifier = Modifier
                         .fillMaxSize()
+                        .background(Color.Transparent)
+                        .size(100.dp)
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
+
                 ) {
+
 
                     var (isMantiVisible, setMantiVisible) = remember { mutableStateOf(false) }
                     var (isCigköfteVisible, setCigköfteVisible) = remember { mutableStateOf(false) }
 
                     if (!isMantiVisible && !isCigköfteVisible) {
+                        Header("Choose a dish")
+
                         cigkRecipe(onClick = {
                             setCigköfteVisible(true)
                             setMantiVisible(false)
@@ -88,6 +95,7 @@ class MainActivity : ComponentActivity() {
                         mantiIngredients()
                         mantiHowto()
 
+
                         backButton {
                             setMantiVisible(false)
                         }
@@ -100,6 +108,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 
 @Composable
@@ -226,7 +235,15 @@ fun cigkofteIngredients(modifier : Modifier = Modifier ){
     val customViolet = Color(0xFFE1A0F9)
 
     Text(
-        text = "sikkafa",
+        text = "Ingredients:\n" +
+                "500g ground beef (lean)\n" +
+                "2 cups fine bulgur\n" +
+                "1 onion, finely grated\n" +
+                "2 tbsp tomato paste\n" +
+                "1 tbsp chili pepper flakes\n" +
+                "Salt to taste\n" +
+                "Juice of 1 lemon\n" +
+                "A handful of parsley, finely chopped",
 
                 modifier = modifier
                     .background(Color.Transparent)
@@ -244,7 +261,18 @@ fun cigkofteHowto( modifier: Modifier = Modifier){
 
     val customViolet = Color(0xFFE1A0F9)
 
-    Text(text = "sikkafa",
+    Text(text = "Steps:\n" +
+            "Mix Ingredients: In a large bowl, mix bulgur, ground beef, grated onion, and tomato paste.\n" +
+            "\n" +
+            "Season: Add chili pepper flakes and salt.\n" +
+            "\n" +
+            "Knead: Knead the mixture well until it starts to hold together.\n" +
+            "\n" +
+            "Lemon and Parsley: Add lemon juice and chopped parsley to the mixture. Knead for a couple more minutes.\n" +
+            "\n" +
+            "Shape: Take small portions of the mixture and shape them into small, oblong balls.\n" +
+            "\n" +
+            "Serve: Serve immediately with lettuce leaves, or store in the refrigerator for later use.",
 
         modifier = modifier
             .background(Color.Transparent)
